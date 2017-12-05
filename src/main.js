@@ -29,3 +29,7 @@ const  router=VueRouter({
     }
   }
 });
+new Vue({
+  router,
+  store
+}).$mount('#wechat');
