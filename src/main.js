@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import routes from './router/router'
+import routes from './router/index'
 import store from './vuex/'
 import './style/public.scss'
 import './config/rem'
