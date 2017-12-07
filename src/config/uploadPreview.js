@@ -1,5 +1,4 @@
-﻿//代码整理：懒人之家  www.lanrenzhijia.com
-function uploadPreview(setting) {
+﻿function uploadPreview(setting) {
 
     var _self = this;
 
@@ -74,7 +73,7 @@ function uploadPreview(setting) {
 					}
 					_self.Setting.callback();
 				}
-	
+
         }
     }
 
@@ -87,7 +86,7 @@ function uploadPreview(setting) {
 	// var WARP = document.getElementById('warp');
 	// var WARP_LI = WARP.getElementsByTagName('li');
 	// for(var i=0; i<WARP_LI.length;i++){
-		//new uploadPreview({ UpBtn: "up_img_WU_FILE_0"+i, ImgShow: "imgShow_WU_FILE_0"+i});		
+		//new uploadPreview({ UpBtn: "up_img_WU_FILE_0"+i, ImgShow: "imgShow_WU_FILE_0"+i});
 	// }
 //}
 //window.onload = file_click;

@@ -1,93 +1,83 @@
 <template>
-  <section class="dialogue">
-    <!-- 头部 -->
-    <head-top logo-part="true" search-part="true" add="true"></head-top>
-    <div class="dialogue_con">
-      <!-- 电脑登录 -->
-      <section class="computer" v-if="computershow">
-        <router-link to='/computer' class="computer_link">
-          <section class="computer_icon">
-            <svg>
-              <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#computer"></use>
+   <section class="dialogue">
+     <head-top logo-part="true" search-part="true" add="true"></head-top>
+     <div class="dialogue_con">
+       <section class="computer" v-if="computershow">
+         <router-link to='/computer' class="computer_link">
+           <section class="computer_icon">
+             <svg>
+               <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#computer"></use>
+             </svg>
+           </section>
+           <section class="computer_text">Windows 微信已登录<span v-if="mute">， 手机通知已关闭</span></section>
+         </router-link>
+       </section>
+     </div>
+   </section>
+  <section class="conversation">
+    <ul>
+      <router-link to="/singlechat" tag="li" v-for="item in dialogueList" @click.native="refreshInfor(item)">
+        <div class="imgwipe">
+          <i class="redicon_num" v-if='newinfor'></i>
+          <i class="redicon" v-if=newtext></i>
+          <div class="imgstyle">
+            <img :src="item.headurl" alt="">
+          </div>
+        </div>
+        <div class="infordetail">
+          <div class="infordetail_top clear">
+            <span class="left ellipsis">
+              {{item.remarks?item.remarks:item.petname}}
+            </span>
+            <span class="right">12:09</span>
+          </div>
+          <div class="infordetail_bot ellipsis">
+            {{item.newmeassage}}
+          </div>
+        </div>
+      </router-link>
+    </ul>
+  </section>
+  <section class="conversation">
+    <ul>
+      <router-link to="/groupchat" tag="li">
+        <div class="imgwipe">
+          <i class="redicon_num" v-if="newinfor">1</i>
+          <i class="redicon" v-if="newtext"></i>
+          <div class="imgstyle imgstyletwo">
+            <img :src="item.avatar" alt="" v-for="item in groupHead">
+          </div>
+        </div>
+        <div class="infordetail">
+          <div class="infordetail_top clear">
+            <span class="left ellipsis">群聊</span>
+            <span class="right">12:07</span>
+          </div>
+          <div class="infordetail_bot ellipsis">
+            请同学们文明交流~~~
+          </div>
+        </div>
+      </router-link>
+    </ul>
+  </section>
+  <section class="consumer" :class="{consumeradd : consumer}" v-if="consumerthing">
+    <div class="consumerbg"></div>
+    <div class="consumercon">
+      <section class="login">
+        <div class="useid" :class="{'useid_border' : borderColor}">
+          <div class="mark">账号</div>
+          <div class="input_mark"><input type="text" placeholder="微信号(随便输入)" v-model="inputaccounts" @input="inpuMark" @click="accountsMark" /></div>
+          <div class="svg_close" v-if="accounts" @click="clearMark">
+            <svg fill="#c3c3c3">
+              <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#close"></use>
             </svg>
-          </section>
-          <section class="computer_text">Windows 微信已登录<span v-if="mute">， 手机通知已关闭</span></section>
-        </router-link>
-      </section>
-      <!-- 对话列表 -->
-      <section class="conversation">
-        <ul>
-          <router-link to="/singlechat" tag="li" v-for="item in dialogueList" @click.native="refreshInfor(item)">
-            <div class="imgwipe">
-              <i class="redicon_num" v-if="newinfor">
-                1
-              </i>
-              <i class="redicon" v-if="newtext"></i>
-              <div class="imgstyle">
-                <img :src="item.headurl" alt="">
-              </div>
-            </div>
-            <div class="infordetail">
-              <div class="infordetail_top clear">
-                <span class="left ellipsis">{{item.remarks ? item.remarks : item.petname}}</span>
-                <span class="right">12:07</span>
-              </div>
-              <div class="infordetail_bot ellipsis">
-                {{item.newmeassage}}
-              </div>
-            </div>
-          </router-link>
-        </ul>
-      </section>
-      <!-- 群聊 -->
-      <section class="conversation">
-        <ul>
-          <router-link to="/groupchat" tag="li">
-            <div class="imgwipe">
-              <i class="redicon_num" v-if="newinfor">1</i>
-              <i class="redicon" v-if="newtext"></i>
-              <div class="imgstyle imgstyletwo">
-                <img :src="item.avatar" alt="" v-for="item in groupHead">
-              </div>
-            </div>
-            <div class="infordetail">
-              <div class="infordetail_top clear">
-                <span class="left ellipsis">群聊</span>
-                <span class="right">12:07</span>
-              </div>
-              <div class="infordetail_bot ellipsis">
-                请同学们文明交流~~~
-              </div>
-            </div>
-          </router-link>
-        </ul>
+          </div>
+        </div>
+        <div class="login_botton" @click="loginSuccess">
+          登 录
+        </div>
       </section>
     </div>
-    <!-- 输入用户名弹窗 -->
-    <section class="consumer" :class="{consumeradd : consumer}" v-if="consumerthing">
-      <div class="consumerbg"></div>
-      <div class="consumercon">
-        <section class="login">
-          <div class="useid" :class="{'useid_border' : borderColor}">
-            <div class="mark">帐号</div>
-            <div class="input_mark"><input type="text" placeholder="微信号(随便输入)" v-model="inputaccounts" @input="inpuMark" @click="accountsMark" /></div>
-            <div class="svg_close" v-if="accounts" @click="clearMark">
-              <svg fill="#c3c3c3">
-                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#close"></use>
-              </svg>
-            </div>
-          </div>
-          <div class="login_botton" @click="loginSuccess">
-            登 录
-          </div>
-        </section>
-      </div>
-    </section>
-    <!-- 底部导航 -->
-    <foot-guide></foot-guide>
-    <transition name="router-show">
-      <router-view></router-view>
-    </transition>
   </section>
 </template>
 
@@ -210,7 +200,7 @@
 	}
 </script>
 <style lang="scss" scoped>
-	@import "src/style/public";
+	@import "../../../src/style/public";
 	.router-show-enter-active,.router-show-leave-active{
 		transition: all .4s;
 	}
